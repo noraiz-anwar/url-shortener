@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - 27017:27017
+  rabbitmq:
+    image: rabbitmq:3.7.19-management-alpine
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+  api:
+    build: .
+    depends_on:
+      - mongodb
+      - rabbitmq
+    command: npm run start
+    ports:
+      - 3000:3000
